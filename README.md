@@ -15,5 +15,5 @@ These can be installed fairly simply via a Google search. Once these are install
 Once the .py file is installed, you can run the file and the GUI will show.
 Select the tickets spreadsheet you want to compile reports for, and it will create a text file that contains all reports needed to be pasted.
 ## Contact
-Isaac Simmons - isaac.simmons@txdot.gov
+Isaac Simmons - isaac.simmons@txdot.gov  
 Riley Scoggins - riley.scoggins@txdot.gov
