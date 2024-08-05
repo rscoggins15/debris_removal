@@ -107,8 +107,8 @@ unique_dates = df['Date'].dropna().unique().tolist()
 
 
 # Change file
-btn_change_date = ttk.Button(root, text = "Select a New File", command = ask_for_file)
-btn_change_date.grid(column = 0, row = 0, padx = 2, pady = 2)
+# btn_change_date = ttk.Button(root, text = "Select a New File", command = ask_for_file)
+# btn_change_date.grid(column = 0, row = 0, padx = 2, pady = 2)
 
 # padding
 lbl_padding = ttk.Label(text= ' ').grid(column = 0, row = 1)
