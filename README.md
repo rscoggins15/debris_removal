@@ -5,10 +5,10 @@ This project pulls ticket data from a spreadsheet and generates reports that sum
 
 Python is the language used for this project. We utilized tkinter to create a user-friendly Graphical User Interface (GUI). This file connects to and pulls data from a spreadsheet that contains ticket data.
 ## Getting Started
-This project requires the following to be installed:
-* Python
-* tkinter
-* pandas
+This project requires the following to be installed:  
+* Python  
+* tkinter  
+* pandas  
 
 These can be installed fairly simply via a Google search. Once these are installed, you can use any IDE that can do Python, or any combination of a compiler and text editor. My choice of IDE was Visual Studio Code, as it is extremely easy to setup and the guides online are abundant.
 ## Usage
