@@ -40,6 +40,9 @@ def generate_reports(df, output_file_path, selection):
                         hanging_limbs_ea_tree = trm_group[trm_group['Material'] == 'Hanging Limbs EA Tree']['Net Quantity'].sum()
                         hanging_limbs_ticket_count = trm_group[trm_group['Material'] == 'Hanging Limbs EA Tree'].shape[0]
 
+                        stumps = trm_group[trm_group['Material'] == 'Tree Stump Removal']['Net Quantity'].sum()
+                        stumps_ticket_count = trm_group[trm_group['Material'] == 'Tree Stump Removal'].shape[0]
+
                         # Write the report for this unique combination to the file
                         file.write(f"Date: {date}\n")
                         file.write(f"Data Entry for: {inspector}\n")
@@ -47,12 +50,13 @@ def generate_reports(df, output_file_path, selection):
                         file.write(f"Roadway: {roadway}\n")
                         file.write(f"TRM range: {trm}\n")
                         file.write(f"Disposal Site: {disposal_site}\n")
-                        file.write(f"Gen Debris Removal HWY ROW: {gen_debris_removal_hwy_row}\n")
-                        file.write(f"Gen. Debris Ticket Count: {gen_debris_ticket_count}\n")
-                        file.write(f"Leaning Trees EA Tree: {leaning_trees_ea_tree}\n")
-                        file.write(f"Leaning Trees Ticket Count: {leaning_trees_ticket_count}\n")
-                        file.write(f"Hanging Limbs EA Tree: {hanging_limbs_ea_tree}\n")
-                        file.write(f"Hanging Limbs Ticket Count: {hanging_limbs_ticket_count}\n")
+                        file.write(f"Gen Debris Removal HWY ROW: {gen_debris_removal_hwy_row}  [{gen_debris_ticket_count}]\n")
+                        # file.write(f"Gen. Debris Ticket Count: {gen_debris_ticket_count}\n")
+                        file.write(f"Leaning Trees EA Tree: {leaning_trees_ea_tree}  [{leaning_trees_ticket_count}]\n")
+                        # file.write(f"Leaning Trees Ticket Count: {leaning_trees_ticket_count}\n")
+                        file.write(f"Hanging Limbs EA Tree: {hanging_limbs_ea_tree}  [{hanging_limbs_ticket_count}]\n")
+                        # file.write(f"Hanging Limbs Ticket Count: {hanging_limbs_ticket_count}\n")
+                        file.write(f"Stumps EA: {stumps}  [{stumps_ticket_count}]\n")
                         file.write("\n")
 
 
