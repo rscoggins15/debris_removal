@@ -10,7 +10,7 @@ This project requires the following to be installed:
 * tkinter  
 * pandas  
 
-These can be installed fairly simply, with documentation avaliable via a Google search. Once these are installed, you can use any IDE that can do Python, or any combination of a compiler and text editor. My choice of IDE was Visual Studio Code, as it is extremely easy to setup and the guides online are abundant.
+These can be installed fairly simply, with documentation available via a Google search. Once these are installed, you can use any IDE that can do Python, or any combination of a compiler and text editor. My choice of IDE was Visual Studio Code, as it is extremely easy to setup and the guides online are abundant.
 ## Usage
 Once the .py file is installed, you can run the file and the GUI will show.
 Select the tickets spreadsheet you want to compile reports for, and it will create a text file that contains all reports needed to be pasted.
