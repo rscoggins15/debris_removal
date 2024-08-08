@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from tkinter.filedialog import askopenfilename
 import tkinter as tk
 
@@ -57,8 +57,7 @@ def generate_reports(df, output_file_path, selection):
                         file.write("\n")
 
 
-
-# fuction to generate report
+# function to generate report
 def report_gen():
     global selection
     selection = combo.get()
@@ -70,7 +69,14 @@ def report_gen():
     output_file_path = os.path.join(os.path.dirname(__file__), f'report_{county}_{selected_date}.txt')
 
     # Call the function to generate the reports and write to the file
-    generate_reports(df, output_file_path, selection)
+    try:
+        generate_reports(df, output_file_path, selection)
+        # Show message box that file has been written to
+        messagebox.showinfo('Report Generation', "Report generated succesfully!")
+
+    except Exception as error:
+        # handle the error
+        messagebox.showerror("Error Occured:", error)   # printing exception that occured
 
 
 def ask_for_file():
@@ -82,9 +88,6 @@ def ask_for_file():
 def file_name():
     return excel_file_path
 
-
-
-
 # GUI
 
 # Define window
@@ -92,20 +95,26 @@ root = tk.Tk()
 root.title("Daily Report")
 v = tk.StringVar()
 
-ask_for_file()
+# Read file from user
+# Will repeat this until user selects a valid spreadsheet file
+while True:
+    try:
+        ask_for_file()
+        # read excel file into fd
+        df = pd.read_excel(excel_file_path, sheet_name='Ticket List')
 
+        # define columns of interest
+        columns_of_interest = ['Date', 'Loading Site Monitor', 'Roadway', 'TRM', 'County', 'Disposal Site', 'Material', 'Net Quantity']
 
-# read excel file into fd
-df = pd.read_excel(excel_file_path, sheet_name='Ticket List')
+        # Filter df to only include the columns of interest
+        df = df[columns_of_interest]
 
-# define columns of interest
-columns_of_interest = ['Date', 'Loading Site Monitor', 'Roadway', 'TRM', 'County', 'Disposal Site', 'Material', 'Net Quantity']
+        unique_dates = df['Date'].dropna().unique().tolist()
+        break
 
-# Filter df to only include the columns of interest
-df = df[columns_of_interest]
-
-unique_dates = df['Date'].dropna().unique().tolist()
-
+    except Exception as error:
+            # handle the error
+            messagebox.showerror("Error Occured:", error)   # printing exception that occured
 
 # Change file
 # btn_change_date = ttk.Button(root, text = "Select a New File", command = ask_for_file)
