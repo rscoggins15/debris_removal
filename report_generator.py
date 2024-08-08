@@ -50,13 +50,10 @@ def generate_reports(df, output_file_path, selection):
                         file.write(f"Roadway: {roadway}\n")
                         file.write(f"TRM range: {trm}\n")
                         file.write(f"Disposal Site: {disposal_site}\n")
-                        file.write(f"Gen Debris Removal HWY ROW: {gen_debris_removal_hwy_row}  [{gen_debris_ticket_count}]\n")
-                        # file.write(f"Gen. Debris Ticket Count: {gen_debris_ticket_count}\n")
-                        file.write(f"Leaning Trees EA Tree: {leaning_trees_ea_tree}  [{leaning_trees_ticket_count}]\n")
-                        # file.write(f"Leaning Trees Ticket Count: {leaning_trees_ticket_count}\n")
-                        file.write(f"Hanging Limbs EA Tree: {hanging_limbs_ea_tree}  [{hanging_limbs_ticket_count}]\n")
-                        # file.write(f"Hanging Limbs Ticket Count: {hanging_limbs_ticket_count}\n")
-                        file.write(f"Stumps EA: {stumps}  [{stumps_ticket_count}]\n")
+                        file.write(f"Gen Debris Removal HWY ROW: {round(gen_debris_removal_hwy_row, 3)}  [{gen_debris_ticket_count}]\n") if gen_debris_ticket_count > 0 else 0
+                        file.write(f"Leaning Trees EA Tree: {leaning_trees_ea_tree}  [{leaning_trees_ticket_count}]\n") if leaning_trees_ticket_count > 0 else 0
+                        file.write(f"Hanging Limbs EA Tree: {hanging_limbs_ea_tree}  [{hanging_limbs_ticket_count}]\n") if hanging_limbs_ticket_count > 0 else 0
+                        file.write(f"Stumps EA: {stumps}  [{stumps_ticket_count}]\n") if stumps_ticket_count > 0 else 0
                         file.write("\n")
 
 
