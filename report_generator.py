@@ -1,8 +1,9 @@
-import pandas as pd
 import os
-from tkinter import ttk, messagebox
-from tkinter.filedialog import askopenfilename
 import tkinter as tk
+from tkinter import messagebox, ttk
+from tkinter.filedialog import askopenfilename
+
+import pandas as pd
 
 
 # generate the report
