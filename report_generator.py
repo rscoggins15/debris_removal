@@ -1,4 +1,5 @@
 import os
+import sys
 import tkinter as tk
 from tkinter import messagebox, ttk
 from tkinter.filedialog import askopenfilename
@@ -89,6 +90,9 @@ def ask_for_file():
 def file_name():
     return excel_file_path
 
+# 
+def restart(): os.execv(sys.executable, ['python'] + sys.argv)
+
 # GUI
 
 # Define window
@@ -115,11 +119,13 @@ while True:
 
     except Exception as error:
             # handle the error
-            messagebox.showerror("Error Occured:", error)   # printing exception that occured
+            answer = messagebox.askyesno("Error Occured:", f'{error}\n\n\nCONTINUE?')   # printing exception that occured
+            if answer: continue # If user clicks yes, continue
+            else: sys.exit() # If user clicks no, quit code
 
 # Change file
-# btn_change_date = ttk.Button(root, text = "Select a New File", command = ask_for_file)
-# btn_change_date.grid(column = 0, row = 0, padx = 2, pady = 2)
+btn_change_date = ttk.Button(root, text = "Select a New File", command = restart)
+btn_change_date.grid(column = 0, row = 0, padx = 2, pady = 2)
 
 # padding
 lbl_padding = ttk.Label(text= ' ').grid(column = 0, row = 1)
