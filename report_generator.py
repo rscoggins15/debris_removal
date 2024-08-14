@@ -1,3 +1,9 @@
+'''
+This project pulls ticket data from a spreadsheet and generates reports that summarize 
+quantities for specific roadways and inspectors. This generator allows for easy compilation 
+of report data to be pasted over into SiteManager for data entry.
+'''
+
 import os
 import sys
 import tkinter as tk
@@ -9,29 +15,30 @@ import pandas as pd
 
 # generate the report
 def generate_reports(df, output_file_path, selection):
-    with open(output_file_path, 'w') as file:
+    '''Opens output file, pulls data together, and writes it to the report file.'''
+    with open(output_file_path, 'w', encoding='utf-8') as file:
         # Group the data by Date
         selected_date = df[df['Date'] == selection]
         grouped_by_date = selected_date.groupby('Date')
-        
+
         for date, date_group in grouped_by_date:
 
             # Group the data by Loading Site Monitor (Inspector) for each date
             grouped_by_inspector = date_group.groupby('Loading Site Monitor')
-            
+
             for inspector, inspector_group in grouped_by_inspector:
                 # Group the data by Roadway for each inspector on that date
                 grouped_by_roadway = inspector_group.groupby('Roadway')
-                
+
                 for roadway, roadway_group in grouped_by_roadway:
                     # Group the data by TRM for each roadway for that inspector on that date
                     grouped_by_trm = roadway_group.groupby('TRM')
-                    
+
                     for trm, trm_group in grouped_by_trm:
                         # Extracting unique values for each entry in the report
                         county = trm_group['County'].unique()[0]
                         disposal_site = trm_group['Disposal Site'].unique()[0]
-                        
+
                         # Calculate the quantities and ticket counts for each type of debris
                         gen_debris_removal_hwy_row = trm_group[trm_group['Material'] == 'Gen Debris Removal HWY ROW']['Net Quantity'].sum()
                         gen_debris_ticket_count = trm_group[trm_group['Material'] == 'Gen Debris Removal HWY ROW'].shape[0]
@@ -76,32 +83,30 @@ def report_gen():
         # Show message box that file has been written to
         messagebox.showinfo('Report Generation', "Report generated succesfully!")
 
-    except Exception as error:
+    except Exception as err:
         # handle the error
-        messagebox.showerror("Error Occured:", error)   # printing exception that occured
-
+        messagebox.showerror("Error Occured:", err)   # printing exception that occured
 
 def ask_for_file():
+    '''Popup to get a file name and dir.'''
     global excel_file_path
     excel_file_path = askopenfilename(initialdir = 'T:\\TylMaintenance\\Contracts\\Emergency Contracts\\FY 24 EMERGENCY DEBRIS REMOVAL\\TXDOT Daily Inspection Report')
     v.set(os.path.basename(excel_file_path))
 
-# get file name
-def file_name():
-    return excel_file_path
-
-# 
-def restart(): os.execv(sys.executable, ['python'] + sys.argv)
+def restart():
+    '''restarts the program, so a new file can be selected'''
+    os.execv(sys.executable, ['python'] + sys.argv)
 
 # GUI
-
 # Define window
 root = tk.Tk()
 root.title("Daily Report")
 v = tk.StringVar()
 
-# Read file from user
-# Will repeat this until user selects a valid spreadsheet file
+'''
+Reads file from user
+Will repeat this until user selects a valid spreadsheet file
+'''
 while True:
     try:
         ask_for_file()
@@ -118,24 +123,24 @@ while True:
         break
 
     except Exception as error:
-            # handle the error
-            answer = messagebox.askyesno("Error Occured:", f'{error}\n\n\nCONTINUE?')   # printing exception that occured
-            if answer: continue # If user clicks yes, continue
-            else: sys.exit() # If user clicks no, quit code
+        # handle the error
+        answer = messagebox.askyesno("Error Occured:", f'{error}\n\n\nCONTINUE?')   # printing exception that occured
+        if answer:
+            continue # If user clicks yes, continue
+        sys.exit() # If user clicks no, quit code
 
 # Change file
 btn_change_date = ttk.Button(root, text = "Select a New File", command = restart)
 btn_change_date.grid(column = 0, row = 0, padx = 2, pady = 2)
 
 # padding
-lbl_padding = ttk.Label(text= ' ').grid(column = 0, row = 1)
+ttk.Label(text= ' ').grid(column = 0, row = 1)
 
 # Display selected file
 chosen_file_text = ttk.Label(text='Chosen File:')
 chosen_file_text.grid(column = 0, row = 2, sticky = 'E')
 chosen_file = ttk.Label(textvariable = v, font = 'Helvetica 8 bold')
 chosen_file.grid(column = 1, row = 2)
-
 
 # Prompt
 instrucitons = ttk.Label(text = "Select a Date:")
@@ -151,7 +156,6 @@ generate_btn = ttk.Button(root, text = "Generate Report", command = report_gen)
 generate_btn.grid(column = 2, row = 3, padx = 2, sticky = 'W')
 
 #padding
-lbl_padding2 = ttk.Label(text = ' ').grid(column = 0, row = 4)
-
+ttk.Label(text = ' ').grid(column = 0, row = 4)
 
 root.mainloop()
