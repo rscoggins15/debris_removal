@@ -66,6 +66,23 @@ def generate_reports(df, output_file_path, selection):
                         file.write("\n")
 
 
+def report_folder():
+    '''
+    Checks if a folder exists. If it does not, it creates one
+    '''
+    # global report_folder_path
+    # current_dir = os.path.dirname(os.path.abspath(__file__))
+    report_folder_path = 'reports'
+    if not os.path.exists(report_folder_path):
+        try:
+            os.mkdir(report_folder_path)
+            print(f'Reports folder created: {report_folder_path}')
+        except Exception as e:
+            messagebox.showerror("Error Occured", e)
+    # else:
+        # print(f'Reports folder already exists: {report_folder_path}')
+    return report_folder_path
+
 # function to generate report
 def report_gen():
     global selection
@@ -75,17 +92,33 @@ def report_gen():
     selected_date = selection.replace("/", "-")
     path = excel_file_path.split('/')
     county = str(path[-2])
-    output_file_path = os.path.join(os.path.dirname(__file__), f'report_{county}_{selected_date}.txt')
+    output_file_path = os.path.join(report_folder(), f'report_{county}_{selected_date}.txt')
 
     # Call the function to generate the reports and write to the file
     try:
         generate_reports(df, output_file_path, selection)
         # Show message box that file has been written to
-        messagebox.showinfo('Report Generation', "Report generated succesfully!")
+        confimation_label_show()
+        # messagebox.showinfo('Report Generation', "Report generated successfully!")
 
     except Exception as err:
         # handle the error
         messagebox.showerror("Error Occured:", err)   # printing exception that occured
+
+def confirmation_label_hide():
+    '''
+    This will hide the confirmation label
+    '''
+    confirm.config(text='')
+
+def confimation_label_show():
+    '''
+    This will show a success confirmation upon sueccessful report generation
+    for 5 seconds and then call another function to make it disappear. 
+    '''
+    confirm.config(text='Report generated successfully!')
+    root.after(5000, confirmation_label_hide)
+
 
 def ask_for_file():
     '''Popup to get a file name and dir.'''
@@ -94,7 +127,9 @@ def ask_for_file():
     v.set(os.path.basename(excel_file_path))
 
 def restart():
-    '''restarts the program, so a new file can be selected'''
+    '''
+    restarts the program, so a new file can be selected
+    '''
     os.execv(sys.executable, ['python'] + sys.argv)
 
 # GUI
@@ -110,7 +145,7 @@ Will repeat this until user selects a valid spreadsheet file
 while True:
     try:
         ask_for_file()
-        # read excel file into fd
+        # read excel file into df
         df = pd.read_excel(excel_file_path, sheet_name='Ticket List')
 
         # define columns of interest
@@ -150,6 +185,10 @@ instrucitons.grid(column = 0, row = 3, sticky = 'E')
 combo = ttk.Combobox(root, values = unique_dates)
 combo.grid(column = 1, row = 3, sticky = 'W')
 combo.current(0)
+
+# Confirmation text
+confirm = ttk.Label(root, text='', font=('Helvetica',10, 'bold'))
+confirm.grid(column=1, row=4, sticky='W', pady='10')
 
 # Buttons
 generate_btn = ttk.Button(root, text = "Generate Report", command = report_gen)
