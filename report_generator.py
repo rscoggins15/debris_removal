@@ -132,9 +132,26 @@ def restart():
     '''
     os.execv(sys.executable, ['python'] + sys.argv)
 
+def center_window(window):
+    '''
+    Centers the tkinter window in the middle of the user's screen
+    '''
+    
+    # Get the screen width and height
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+    
+    # Calculate the position to center the window
+    x = screen_width // 3
+    y = screen_height // 3
+    
+    # Set the window position
+    window.geometry(f'+{x}+{y}')
+
 # GUI
 # Define window
 root = tk.Tk()
+center_window(root)
 root.title("Daily Report")
 v = tk.StringVar()
 
